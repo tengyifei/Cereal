@@ -65,6 +65,13 @@ public struct CerealEncoder {
         let value = try encodeItem(unwrapped)
         items.append(.pair(.string(key), value))
     }
+    
+    public mutating func encodeCereal<ItemType: CerealType>(_ item: ItemType?, forKey key: String) throws {
+        guard let unwrapped = item else { return }
+        //have to get throwing value first, due to bug in the compiler: https://bugs.swift.org/browse/SR-696
+        let value = try encodeItem(unwrapped)
+        items.append(.pair(.string(key), value))
+    }
 
     /**
     Encodes an object conforming to `IdentifyingCerealType` under `key`.
